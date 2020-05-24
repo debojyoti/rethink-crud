@@ -1,0 +1,25 @@
+{
+  "name": "rethink-crud",
+  "version": "1.0.0",
+  "description": "A tiny module to make it easier to work with rethink db",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debojyoti/rethink-crud.git"
+  },
+  "keywords": [
+    "rethink"
+  ],
+  "author": "Debojyoti Saha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/debojyoti/rethink-crud/issues"
+  },
+  "dependencies": {
+    "rethinkdb": "^2.4.2"
+  },
+  "homepage": "https://github.com/debojyoti/rethink-crud#readme"
+}
