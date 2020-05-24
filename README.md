@@ -40,7 +40,7 @@ const collections = await myDbRef.listCollections();
 console.log("collections :>> ", collections);
 ```
 
-## Easy CRUD opertations
+## Easy CRUD operations
 
 ```javascript
 
