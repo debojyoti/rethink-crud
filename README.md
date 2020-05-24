@@ -66,17 +66,17 @@ await notes.add({myNoteText: "Rethinkdb is a realtime no sql database!", author:
 const allNotes = await notes.getDocs();
 
 // Get a specific doc
-const debojyotiNotes = await notes.getDocs({author: "Debojyoti"});
+const debojyotiNotes = await notes.get({author: "Debojyoti"});
 
 // Update a specific doc
-await notes.updateDocs(
-  {author: "Debojyoti"},                          //  Here goes the filters
+await notes.update(
+  {author: "Debojyoti"},                           //  Here goes the filters
   {email: "debojyoti.js@gmail.com"}                // And now what to update
 );
 
 // Delete a specific doc
-await notes.updateDocs(
-  {author: "Debojyoti"}                          //  Here goes the filters
+await notes.delete(
+  {author: "Debojyoti"}                           //  Here goes the filters
 );
 
 ```
