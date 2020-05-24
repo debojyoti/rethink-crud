@@ -39,3 +39,44 @@ await myDbRef.createCollection("notes");
 const collections = await myDbRef.listCollections();
 console.log("collections :>> ", collections);
 ```
+
+## Easy CRUD opertations
+
+```javascript
+
+// Connect the wrapper engine with rethinkdb
+await rethinkDb.startEngine({
+  host: "localhost",
+  port: 28015,
+});
+
+// Initiate the wrapper 
+// and pass the database name currently you want to work with 
+// So it will be selected by default for futire operations
+// It will return the database reference
+const db = new rethinkDb("my-db");
+
+// Now get the collection reference you want to work with
+const notes = db.collection("users");
+
+// Add a document
+await notes.add({myNoteText: "Rethinkdb is a realtime no sql database!", author: "Debojyoti"});
+
+// Get all documents
+const allNotes = await notes.getDocs();
+
+// Get a specific doc
+const debojyotiNotes = await notes.getDocs({author: "Debojyoti"});
+
+// Update a specific doc
+await notes.updateDocs(
+  {author: "Debojyoti"},                          //  Here goes the filters
+  {email: "debojyoti.js@gmail.com"}                // And now what to update
+);
+
+// Delete a specific doc
+await notes.updateDocs(
+  {author: "Debojyoti"}                          //  Here goes the filters
+);
+
+```
