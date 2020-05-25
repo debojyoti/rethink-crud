@@ -1,5 +1,4 @@
-# NodeJS helper methods wrapper for **RethinkDB** v2.4.0
-
+# **RethinkDB** crud helper methods for NodeJS
 
 ![](https://d7umqicpi7263.cloudfront.net/img/product/7c566e29-e8b9-46cd-addc-d620104c3b07/ded422c3-10de-4e26-8b98-e7d92949d6c1.png)
 
@@ -10,8 +9,7 @@
 
     https://rethinkdb.com/docs/install/
 
-2. Require node and npm/yarn
-3. Start rethinkdb by running
+2. Start rethinkdb by running
 ```sh
 rethinkdb
 ```
@@ -30,13 +28,13 @@ await rethinkDb.createDb("my-db");
 
 // Db created!
 // So get the db reference to use it further
-const myDbRef = new rethinkDb("my-db");
+const db = new rethinkDb("my-db");
 
 // Create a collection (table) on the db
-await myDbRef.createCollection("notes");
+await db.createCollection("notes");
 
 // Show all collections
-const collections = await myDbRef.listCollections();
+const collections = await db.listCollections();
 console.log("collections :>> ", collections);
 ```
 
@@ -63,9 +61,9 @@ const notes = db.collection("users");
 await notes.add({myNoteText: "Rethinkdb is a realtime no sql database!", author: "Debojyoti"});
 
 // Get all documents
-const allNotes = await notes.getDocs();
+const allNotes = await notes.get();
 
-// Get a specific doc
+// Get filtered doc(s)
 const debojyotiNotes = await notes.get({author: "Debojyoti"});
 
 // Update a specific doc
