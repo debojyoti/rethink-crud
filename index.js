@@ -110,7 +110,7 @@ class RethinkDB {
    * @description Create a new collection
    * @param {string} collectionName Provide new collection name
    * @param {function} callback (Optional) Will be called after 
-   * successful database creation
+   * successful collection creation
    * @returns Promise
    */
   createCollection(collectionName, callback = () => {}) {
@@ -131,7 +131,7 @@ class RethinkDB {
    * @description Get all the collections list in the
    * selected database
    * @param {function} callback (Optional) Will be called after 
-   * successful database creation
+   * successful list fetch
    * @returns Promise 
    */
   listCollections(callback = () => {}) {

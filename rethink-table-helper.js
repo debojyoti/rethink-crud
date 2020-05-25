@@ -28,7 +28,7 @@ class RethinkTableHelper {
    * @description Create new doc(s)
    * @param {*} docs Can be a single object or array of objects
    * @param {*} callBack (Optional) Will be called after
-   * successful database creation
+   * successful operation
    */
   add(docs, callBack = () => {}) {
     return new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ class RethinkTableHelper {
    * @description Get docs from current table
    * @param {Object} filterOptions Filter values in key value pair
    * @param {*} callBack (Optional) Will be called after
-   * successful database creation
+   * successful operation
    */
   get(filterOptions = {}, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
@@ -83,7 +83,7 @@ class RethinkTableHelper {
    * @param {Object} filterOptions Filter values in key value pair
    * @param {Object} updateTo Values to update in key value pair
    * @param {*} callBack (Optional) Will be called after
-   * successful database creation
+   * successful operation
    */
   update(filterOptions = {}, updateTo, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
@@ -105,7 +105,7 @@ class RethinkTableHelper {
    * @description Delete docs
    * @param {Object} filterOptions Filter values in key value pair
    * @param {*} callBack (Optional) Will be called after
-   * successful database creation
+   * successful operation
    */
   delete(filterOptions = {}, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
