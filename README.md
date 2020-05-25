@@ -60,7 +60,7 @@ await rethinkDb.startEngine({
 const db = new rethinkDb("my-db");
 
 // Now get the collection reference you want to work with
-const notes = db.collection("users");
+const notes = db.collection("notes");
 
 // Add a document
 await notes.add({myNoteText: "Rethinkdb is a realtime no sql database!", author: "Debojyoti"});
