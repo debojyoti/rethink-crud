@@ -17,6 +17,9 @@ rethinkdb
 ## Steps to create a database and a collection to get started
 
 ```javascript
+const rethinkDb = require("rethink-crud");
+
+
 // Connect the wrapper engine with rethinkdb
 await rethinkDb.startEngine({
   host: "localhost",
@@ -41,6 +44,8 @@ console.log("collections :>> ", collections);
 ## Easy CRUD operations
 
 ```javascript
+const rethinkDb = require("rethink-crud");
+
 
 // Connect the wrapper engine with rethinkdb
 await rethinkDb.startEngine({
@@ -50,7 +55,7 @@ await rethinkDb.startEngine({
 
 // Initiate the wrapper 
 // and pass the database name currently you want to work with 
-// So it will be selected by default for futire operations
+// So it will be selected by default for future operations
 // It will return the database reference
 const db = new rethinkDb("my-db");
 

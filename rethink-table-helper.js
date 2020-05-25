@@ -1,66 +1,122 @@
+/**
+ * @class Creates a new instanse of table helper
+ * @description In the constructor, a table reference and
+ * database reference should be passed
+ */
 class RethinkTableHelper {
-  constructor(tableConnection, dbConnection) {
+  /**
+   * @constructor
+   * @param {Object} tableReference
+   * @param {Object} dbConnection
+   */
+  constructor(tableReference, dbConnection) {
+    // Set database connection
     this.db = dbConnection;
-    this.setTable(tableConnection);
+    // Set table reference
+    this.setTable(tableReference);
   }
 
-  setTable(tableConnection) {
-    this.tableConnection = tableConnection;
+  /**
+   * @description Set table reference
+   * @param {Object} tableReference
+   */
+  setTable(tableReference) {
+    this.tableReference = tableReference;
   }
 
+  /**
+   * @description Create new doc(s)
+   * @param {*} docs Can be a single object or array of objects
+   * @param {*} callBack (Optional) Will be called after
+   * successful database creation
+   */
   add(docs, callBack = () => {}) {
     return new Promise((resolve, reject) => {
       let preparedData = null;
+      // Check if provided docs is an array
+      // and prepare the data to add
       if (Array.isArray(docs)) {
+        // Array
         preparedData = [...docs];
       } else {
+        // Object
         preparedData = { ...docs };
       }
-      this.tableConnection.insert(docs).run(this.db, (err, result) => {
+      // Add the data
+      this.tableReference.insert(docs).run(this.db, (err, result) => {
+        // Throw error if occured
         if (err) reject(err);
-        this.tableConnection
-          .insert(preparedData)
-          .run(this.db, (err, result) => {
-            if (err) reject(err);
-            // console.log('result :>> ', result);
-            callBack(result);
-            resolve(result);
-          });
+        // On successful insert
+        // Send back the response
+        callBack(result);
+        resolve(result);
       });
     });
   }
 
-  getDocs(filterOptions = {}, callBack = () => {}) {
+  /**
+   * @description Get docs from current table
+   * @param {Object} filterOptions Filter values in key value pair
+   * @param {*} callBack (Optional) Will be called after
+   * successful database creation
+   */
+  get(filterOptions = {}, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
-      this.tableConnection.run(this.db, async (err, result) => {
-        if (err) reject(err);
-        const docs = await result.toArray();
-        callBack(docs);
-        resolve(docs);
-      });
+      // Run the query
+      this.tableReference
+        .filter(filterOptions)
+        .run(this.db, async (err, result) => {
+          // Throw error if occured
+          if (err) reject(err);
+          // On successful query
+          // Get the docs
+          const docs = await result.toArray();
+          // Send back the docs
+          callBack(docs);
+          resolve(docs);
+        });
     });
   }
 
-  updateDocs(filterOptions = {}, updateTo, callBack = () => {}) {
+  /**
+   * @description Update docs
+   * @param {Object} filterOptions Filter values in key value pair
+   * @param {Object} updateTo Values to update in key value pair
+   * @param {*} callBack (Optional) Will be called after
+   * successful database creation
+   */
+  update(filterOptions = {}, updateTo, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
-      this.tableConnection
+      // Run the query
+      this.tableReference
         .filter(filterOptions)
         .update(updateTo)
         .run(this.db, (err, result) => {
+          // Throw error if occured
           if (err) reject(err);
+          // Send back the response
           callBack(result);
           resolve(result);
         });
     });
   }
 
-  deleteDocs(filterOptions = {}, callBack = () => {}) {
+  /**
+   * @description Delete docs
+   * @param {Object} filterOptions Filter values in key value pair
+   * @param {*} callBack (Optional) Will be called after
+   * successful database creation
+   */
+  delete(filterOptions = {}, callBack = () => {}) {
     return new Promise(async (resolve, reject) => {
-      this.tableConnection
+      // Run the query
+      this.tableReference
         .filter(filterOptions)
         .delete()
         .run(this.db, (err, result) => {
+          // Throw error if occured
           if (err) reject(err);
+          // Send back the response
           callBack(result);
           resolve(result);
         });
