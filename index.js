@@ -7,24 +7,22 @@ const deafultDbConfig = {
   port: 28015,
 };
 
-
 /**
- * A wrapper with easy crud helper methods 
+ * A wrapper with easy crud helper methods
  * @class Creates a new instanse of db helper
  * @description In the constructor, a database name can
- * be passed to select it by default or use setDb("db-name") 
- * to select/change db later  
+ * be passed to select it by default or use setDb("db-name")
+ * to select/change db later
  */
 class RethinkDB {
-
   /**
-   * @description A static method to initiate the database connection. 
+   * @description A static method to initiate the database connection.
    * It should be called before performing any other actions
    * The database config object should be passed
-   * @param {*} connectionConfig (Optional) Provide db config in the 
+   * @param {*} connectionConfig (Optional) Provide db config in the
    * following format {host: "your-host", port: numericDbPort}, if not
    * provided, default config will be used { host: "localhost", port: 28015 }
-   * @static 
+   * @static
    * @async
    * @returns promise
    */
@@ -40,21 +38,21 @@ class RethinkDB {
 
   /**
    * @constructor
-   * @param {string} dbName (optional) Provide database name to select 
+   * @param {string} dbName (optional) Provide database name to select
    * by default or use setDb("db-name") to select/change db later
    */
   constructor(dbName = null) {
     // Check if dbName is provided
     if (dbName && dbName.length) {
       // Provided
-      // So set it 
+      // So set it
       this.setDb(dbName);
     }
   }
 
   /**
    * @description Set/Update database
-   * @param {string} dbName Name of database 
+   * @param {string} dbName Name of database
    */
   setDb(dbName) {
     // Store the db reference for further uses
@@ -67,7 +65,7 @@ class RethinkDB {
    * @returns collection reference
    */
   collection(tableName) {
-    // Check if a valid db reference is available 
+    // Check if a valid db reference is available
     if (!this.db) {
       // Db reference not available
       throw "Please select a database first by using setDb()";
@@ -88,7 +86,7 @@ class RethinkDB {
   /**
    * @description Create a database
    * @param {string} dbName Database name
-   * @param {function} callback (Optional) Will be called after 
+   * @param {function} callback (Optional) Will be called after
    * successful database creation
    * @returns Promise
    */
@@ -109,7 +107,7 @@ class RethinkDB {
   /**
    * @description Create a new collection
    * @param {string} collectionName Provide new collection name
-   * @param {function} callback (Optional) Will be called after 
+   * @param {function} callback (Optional) Will be called after
    * successful collection creation
    * @returns Promise
    */
@@ -128,11 +126,49 @@ class RethinkDB {
   }
 
   /**
+   * @description Drop a collection
+   * @param {string} collectionName Provide collection name to drop
+   * @param {function} callback (Optional) Will be called after
+   * successful collection drop
+   * @returns Promise
+   */
+  dropCollection(collectionName, callback = () => {}) {
+    return new Promise((resolve, reject) => {
+      try {
+        // Drop table
+        this.db.tableDrop(collectionName).run(RethinkDB.connection, () => {
+          callback();
+          resolve();
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * @description Remove a key from a collection
+   * selected database
+   * @returns Promise
+   */
+  removeKey(key) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Delete a key from collection
+        const list = await this.db.tableList().replace(r.row.without(key));
+        resolve(list);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
    * @description Get all the collections list in the
    * selected database
-   * @param {function} callback (Optional) Will be called after 
+   * @param {function} callback (Optional) Will be called after
    * successful list fetch
-   * @returns Promise 
+   * @returns Promise
    */
   listCollections(callback = () => {}) {
     return new Promise(async (resolve, reject) => {
